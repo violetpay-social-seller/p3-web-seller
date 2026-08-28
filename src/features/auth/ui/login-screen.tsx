@@ -28,7 +28,7 @@ export function LoginScreen() {
   }
 
   return (
-    <main className="flex min-h-dvh bg-white px-4 pt-[max(3rem,env(safe-area-inset-top))] pb-6 text-[#12161c]">
+    <main className="flex min-h-dvh bg-surface-default px-4 pt-[max(3rem,env(safe-area-inset-top))] pb-6 text-text-primary">
       <div className="mx-auto flex w-full max-w-[390px] flex-1 flex-col">
         <section className="flex flex-1 flex-col items-center justify-center gap-8 pt-12">
           <Image
@@ -44,7 +44,7 @@ export function LoginScreen() {
               <br />
               사장님과 바로 이야기하세요
             </h1>
-            <p className="mt-2 text-base leading-6 tracking-[-0.32px] text-[#4e5054]">
+            <p className="mt-2 text-base leading-6 tracking-[-0.32px] text-text-secondary">
               3초면 시작할 수 있어요.
             </p>
           </div>
@@ -52,7 +52,7 @@ export function LoginScreen() {
 
         <section aria-label="소셜 로그인" className="space-y-2">
           <button
-            className="relative flex h-[52px] w-full items-center justify-center rounded-xl bg-[#ffe600] px-[18px] text-base font-medium tracking-[-0.16px] text-black transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#12161c] disabled:cursor-wait disabled:opacity-60"
+            className="relative flex h-[52px] w-full items-center justify-center rounded-xl bg-[#ffe600] px-[18px] text-base font-medium tracking-[-0.16px] text-text-primary transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary disabled:cursor-wait disabled:opacity-60"
             disabled={Boolean(pendingProvider)}
             onClick={() => handleSignIn("kakao")}
             type="button"
@@ -68,7 +68,7 @@ export function LoginScreen() {
             {pendingProvider === "kakao" ? "로그인 중..." : "카카오 로그인"}
           </button>
           <button
-            className="relative flex h-[52px] w-full items-center justify-center rounded-xl border border-[#ccccd1] bg-white px-4 text-base font-medium tracking-[-0.16px] text-black transition-colors hover:bg-seller-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#12161c] disabled:cursor-wait disabled:opacity-60"
+            className="relative flex h-[52px] w-full items-center justify-center rounded-xl border border-border-default bg-surface-default px-4 text-base font-medium tracking-[-0.16px] text-text-primary transition-colors hover:bg-seller-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-primary disabled:cursor-wait disabled:opacity-60"
             disabled={Boolean(pendingProvider)}
             onClick={() => handleSignIn("google")}
             type="button"
@@ -92,7 +92,7 @@ export function LoginScreen() {
             </p>
           ) : null}
         </section>
-        <p className="mt-4 text-center text-[13px] leading-4 font-medium tracking-[-0.13px] text-[#8a8b8d]">
+        <p className="mt-4 text-center text-[13px] leading-4 font-medium tracking-[-0.13px] text-text-disabled">
           이용약관과 개인정보 처리방침 확인
         </p>
       </div>

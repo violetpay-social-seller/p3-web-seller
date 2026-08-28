@@ -20,7 +20,7 @@ export function Calendar({
     <section
       aria-label={`${monthLabel} 달력`}
       className={cn(
-        "rounded-seller-card border border-seller-border bg-white p-4",
+        "rounded-seller-card border border-seller-border bg-surface-default p-4",
         className,
       )}
     >
@@ -53,7 +53,7 @@ export function Calendar({
             className={cn(
               "mx-auto flex size-8 items-center justify-center rounded-full hover:bg-seller-secondary disabled:hover:bg-transparent",
               day === selectedDay &&
-                "bg-seller-primary text-white hover:bg-seller-primary",
+                "text-text-inverse bg-seller-primary hover:bg-seller-primary",
             )}
             disabled={!day}
             key={`${day ?? "empty"}-${index}`}

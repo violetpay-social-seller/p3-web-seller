@@ -33,10 +33,10 @@ export function AgreementItem({
           type="checkbox"
           {...props}
         />
-        <span className="size-5 rounded-full border border-seller-border bg-white peer-checked:border-seller-primary peer-checked:bg-seller-primary" />
+        <span className="size-5 rounded-full border border-seller-border bg-surface-default peer-checked:border-seller-primary peer-checked:bg-seller-primary" />
         <Check
           aria-hidden="true"
-          className="pointer-events-none absolute size-3.5 text-white opacity-0 peer-checked:opacity-100"
+          className="text-text-inverse pointer-events-none absolute size-3.5 opacity-0 peer-checked:opacity-100"
         />
       </span>
       <span className="text-sm font-medium">{label}</span>

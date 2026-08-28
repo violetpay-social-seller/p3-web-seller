@@ -19,7 +19,7 @@ export function NotificationRow({
   return (
     <button
       className={cn(
-        "flex w-full items-center gap-3 border-b border-seller-border bg-white px-4 py-3 text-left hover:bg-seller-surface",
+        "flex w-full items-center gap-3 border-b border-seller-border bg-surface-default px-4 py-3 text-left hover:bg-seller-surface",
         className,
       )}
       type={type}
