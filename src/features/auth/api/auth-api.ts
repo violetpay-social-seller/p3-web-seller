@@ -4,7 +4,7 @@ import type {
   UserProfile,
   UserRole,
   UserSync,
-} from "@/features/auth/types";
+} from "@/features/auth/model/types";
 
 export const syncCurrentUser = () =>
   sendJson<UserSync>("/auth/me/sync", "POST");
