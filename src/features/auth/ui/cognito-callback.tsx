@@ -21,6 +21,11 @@ export function CognitoCallback() {
         );
         const user = await syncCurrentUser();
 
+        if (user.nextRoute === "ROLE_SELECTION") {
+          window.location.replace("/auth/role");
+          return;
+        }
+
         if (!user.registered || user.role !== "SELLER") {
           setMessage("판매자 가입 상태를 확인해 주세요.");
           setState("complete");
