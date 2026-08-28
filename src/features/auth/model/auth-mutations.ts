@@ -3,8 +3,8 @@ import {
   completeRegistration,
   syncCurrentUser,
   updateCurrentUser,
-} from "@/features/auth/api";
-import { authKeys } from "@/features/auth/keys";
+} from "@/features/auth/api/auth-api";
+import { authKeys } from "@/features/auth/api/auth-keys";
 
 export function useSyncCurrentUserMutation() {
   return useMutation({ mutationFn: syncCurrentUser });
