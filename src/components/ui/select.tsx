@@ -12,7 +12,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
       <select
         aria-invalid={error || undefined}
         className={cn(
-          "h-11 w-full appearance-none rounded-seller-control border bg-white px-3 pr-10 text-seller-body outline-none focus:border-seller-primary focus:ring-2 focus:ring-seller-primary/10 disabled:cursor-not-allowed disabled:bg-seller-secondary",
+          "h-11 w-full appearance-none rounded-seller-control border bg-surface-default px-3 pr-10 text-seller-body outline-none focus:border-seller-primary focus:ring-2 focus:ring-seller-primary/10 disabled:cursor-not-allowed disabled:bg-seller-secondary",
           error ? "border-seller-danger" : "border-seller-border",
           className,
         )}

@@ -30,7 +30,7 @@ export function PickupTime({
               type="radio"
               value={slot}
             />
-            <span className="flex h-10 items-center justify-center rounded-seller-control border border-seller-border text-sm transition-colors peer-checked:border-seller-primary peer-checked:bg-seller-primary peer-checked:text-white hover:border-seller-primary">
+            <span className="peer-checked:text-text-inverse flex h-10 items-center justify-center rounded-seller-control border border-seller-border text-sm transition-colors peer-checked:border-seller-primary peer-checked:bg-seller-primary hover:border-seller-primary">
               {slot}
             </span>
           </label>

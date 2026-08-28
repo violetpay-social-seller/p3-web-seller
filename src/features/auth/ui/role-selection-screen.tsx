@@ -5,7 +5,7 @@ import { roleOptions } from "@/features/auth/constants/roles";
 
 export function RoleSelectionScreen() {
   return (
-    <main className="flex min-h-dvh flex-col bg-white text-[#12161c]">
+    <main className="flex min-h-dvh flex-col bg-surface-default text-text-primary">
       <header className="flex h-14 items-center justify-between">
         <a
           aria-label="로그인 화면으로 돌아가기"
@@ -28,17 +28,17 @@ export function RoleSelectionScreen() {
         <div className="flex flex-col gap-2">
           {roleOptions.map((role) => (
             <button
-              className="flex min-h-[150px] flex-col items-start justify-center gap-1 rounded-xl bg-[#f3f3f4] px-4 py-5 text-left"
+              className="flex min-h-[150px] flex-col items-start justify-center gap-1 rounded-xl bg-surface-subtle px-4 py-5 text-left"
               key={role.label}
               type="button"
             >
-              <span className="mb-1 text-[11px] leading-4 font-medium tracking-[-0.11px] text-[#6c6e72]">
+              <span className="mb-1 text-[11px] leading-4 font-medium tracking-[-0.11px] text-text-tertiary">
                 {role.label}
               </span>
               <strong className="text-xl leading-7 tracking-[-0.6px] whitespace-pre-line">
                 {role.title}
               </strong>
-              <span className="text-[13px] leading-[18px] tracking-[-0.13px] text-[#6c6e72]">
+              <span className="text-[13px] leading-[18px] tracking-[-0.13px] text-text-tertiary">
                 {role.description}
               </span>
             </button>

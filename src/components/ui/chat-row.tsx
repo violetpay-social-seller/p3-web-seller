@@ -41,7 +41,7 @@ export function ChatRow({
         className={cn(
           "max-w-[78%] rounded-seller-card px-3 py-2 text-sm leading-5",
           isOutgoing
-            ? "bg-seller-primary text-white"
+            ? "text-text-inverse bg-seller-primary"
             : "bg-seller-secondary text-seller-primary",
         )}
       >

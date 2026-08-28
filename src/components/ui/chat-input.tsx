@@ -21,7 +21,7 @@ export function ChatInput({
   return (
     <form
       className={cn(
-        "flex items-center gap-2 border-t border-seller-border bg-white p-3",
+        "flex items-center gap-2 border-t border-seller-border bg-surface-default p-3",
         className,
       )}
       onSubmit={onSubmit}

@@ -36,7 +36,7 @@ export function OptionList({
           <span className="flex size-5 items-center justify-center rounded-full border border-seller-border peer-checked:border-seller-primary peer-checked:bg-seller-primary">
             <Check
               aria-hidden="true"
-              className="size-3.5 text-white opacity-0 peer-checked:opacity-100"
+              className="text-text-inverse size-3.5 opacity-0 peer-checked:opacity-100"
             />
           </span>
           <span className="min-w-0">

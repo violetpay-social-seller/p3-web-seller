@@ -55,7 +55,7 @@ export function CognitoCallback() {
   }, []);
 
   return (
-    <main className="flex min-h-dvh items-center justify-center bg-white p-6 text-center text-[#12161c]">
+    <main className="flex min-h-dvh items-center justify-center bg-surface-default p-6 text-center text-text-primary">
       <div className="space-y-3">
         <p className="text-lg font-bold">
           {state === "loading" ? "로그인 중" : "로그인"}
