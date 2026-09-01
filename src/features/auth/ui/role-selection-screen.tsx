@@ -1,7 +1,7 @@
 "use client";
 
-import { ChevronLeft } from "lucide-react";
 import { roleOptions } from "@/features/auth/constants/roles";
+import { ChevronLeft } from "lucide-react";
 
 export function RoleSelectionScreen() {
   return (
@@ -15,7 +15,7 @@ export function RoleSelectionScreen() {
           <ChevronLeft aria-hidden="true" className="size-6" strokeWidth={2} />
         </a>
         <h1 className="text-[22px] leading-[30px] font-bold tracking-[-0.66px]">
-          오류
+          회원가입
         </h1>
         <span aria-hidden="true" className="size-12" />
       </header>
