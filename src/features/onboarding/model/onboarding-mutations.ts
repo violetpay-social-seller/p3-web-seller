@@ -2,8 +2,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   createOnboarding,
   resubmitOnboarding,
-} from "@/features/onboarding/api";
-import { onboardingKeys } from "@/features/onboarding/keys";
+} from "@/features/onboarding/api/onboarding-api";
+import { onboardingKeys } from "@/features/onboarding/api/onboarding-keys";
 
 function invalidateCurrentOnboarding(
   queryClient: ReturnType<typeof useQueryClient>,

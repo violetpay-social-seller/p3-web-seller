@@ -6,6 +6,8 @@ import {
   CognitoError,
   completeCognitoSignIn,
 } from "@/features/auth/model/cognito";
+import { getCurrentOnboarding } from "@/features/onboarding/api/onboarding-api";
+import { ApiError } from "@/lib/api/types";
 
 type CallbackState = "loading" | "complete" | "error";
 
@@ -29,6 +31,34 @@ export function CognitoCallback() {
         if (!user.registered || user.role !== "SELLER") {
           setMessage("판매자 가입 상태를 확인해 주세요.");
           setState("complete");
+          return;
+        }
+
+        const onboarding = await getCurrentOnboarding().catch(
+          (error: unknown) => {
+            if (
+              error instanceof ApiError &&
+              [401, 404].includes(error.status)
+            ) {
+              window.location.replace("/auth/role");
+              return null;
+            }
+
+            throw error;
+          },
+        );
+
+        if (!onboarding) {
+          return;
+        }
+
+        if (onboarding.status === "PENDING") {
+          window.location.replace("/onboarding/pending");
+          return;
+        }
+
+        if (onboarding.status === "REJECTED") {
+          window.location.replace("/onboarding/rejected");
           return;
         }
 

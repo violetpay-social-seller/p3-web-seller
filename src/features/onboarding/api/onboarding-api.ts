@@ -3,7 +3,7 @@ import type {
   CurrentSellerOnboarding,
   SellerOnboarding,
   SellerOnboardingInput,
-} from "@/features/onboarding/types";
+} from "@/features/onboarding/model/types";
 
 export const getCurrentOnboarding = () =>
   getJson<CurrentSellerOnboarding>("/seller/onboardings/current");

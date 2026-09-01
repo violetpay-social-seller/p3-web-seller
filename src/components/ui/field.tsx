@@ -5,9 +5,13 @@ type FieldProps = {
   children: ReactNode;
   className?: string;
   description?: string;
+  descriptionClassName?: string;
   error?: string;
+  errorClassName?: string;
   htmlFor?: string;
   label: string;
+  labelClassName?: string;
+  requiredPosition?: "after" | "before";
   required?: boolean;
 };
 
@@ -15,28 +19,46 @@ export function Field({
   children,
   className,
   description,
+  descriptionClassName,
   error,
+  errorClassName,
   htmlFor,
   label,
+  labelClassName,
+  requiredPosition = "after",
   required = false,
 }: FieldProps) {
   return (
     <div className={cn("space-y-2", className)}>
       <label
-        className="flex items-center gap-1 text-seller-body font-medium"
+        className={cn(
+          "flex items-center gap-1 text-seller-body font-medium",
+          labelClassName,
+        )}
         htmlFor={htmlFor}
       >
+        {required && requiredPosition === "before" ? (
+          <span aria-hidden="true" className="text-seller-danger">
+            *
+          </span>
+        ) : null}
         {label}
-        {required ? (
+        {required && requiredPosition === "after" ? (
           <span aria-hidden="true" className="text-seller-danger">
             *
           </span>
         ) : null}
       </label>
       {children}
-      {error ? <p className="text-xs text-seller-danger">{error}</p> : null}
+      {error ? (
+        <p className={cn("text-xs text-seller-danger", errorClassName)}>
+          {error}
+        </p>
+      ) : null}
       {!error && description ? (
-        <p className="text-xs text-seller-muted">{description}</p>
+        <p className={cn("text-xs text-seller-muted", descriptionClassName)}>
+          {description}
+        </p>
       ) : null}
     </div>
   );
