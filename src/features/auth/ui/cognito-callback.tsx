@@ -62,6 +62,11 @@ export function CognitoCallback() {
           return;
         }
 
+        if (onboarding.status === "APPROVED") {
+          window.location.replace("/seller/store-management");
+          return;
+        }
+
         const sellerHomePath = process.env.NEXT_PUBLIC_SELLER_HOME_PATH;
 
         if (sellerHomePath) {
