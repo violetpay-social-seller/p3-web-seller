@@ -3,6 +3,7 @@ import {
   getRepresentativeImage,
   getRepresentativeImages,
   getStore,
+  getStoreManagementStatus,
   getStoreSettings,
   getStoreShareLink,
 } from "@/features/store/api";
@@ -10,6 +11,14 @@ import { storeKeys } from "@/features/store/keys";
 
 export function useStoreQuery(enabled = true) {
   return useQuery({ queryKey: storeKeys.detail(), queryFn: getStore, enabled });
+}
+
+export function useStoreManagementStatusQuery(enabled = true) {
+  return useQuery({
+    queryKey: storeKeys.managementStatus(),
+    queryFn: getStoreManagementStatus,
+    enabled,
+  });
 }
 
 export function useStoreSettingsQuery(enabled = true) {
