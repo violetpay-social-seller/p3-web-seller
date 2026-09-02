@@ -75,7 +75,7 @@ export function OrderFormCategoryScreen({
           <div className="flex flex-col gap-4 rounded-seller-md bg-surface-default p-4">
             <OrderFormOptionCard index={options.length + 1} />
             <Button
-              className="h-11 w-fit shrink-0 gap-0 overflow-hidden rounded-seller-md py-0 pr-4 pl-0 text-[15px] leading-5 font-semibold tracking-[-0.3px]"
+              className="h-11 w-fit shrink-0 gap-0 overflow-hidden rounded-seller-sm py-0 pr-4 pl-0 text-[15px] leading-5 font-semibold tracking-[-0.3px]"
               onClick={() => setIsSheetOpen(true)}
               size="md"
             >
