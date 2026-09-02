@@ -6,24 +6,19 @@ import { BottomSheet } from "@/components/ui/bottom-sheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import type {
+  OrderFormDraftOption,
+  OrderFormDraftOptionType,
+} from "@/features/order-form/model/order-form-draft";
 import { cn } from "@/lib/utils";
 
-type OptionType = "SELECT" | "SELECT_WITH_TEXT" | "IMAGE" | "TEXTAREA";
-
 type OrderFormOptionSheetProps = {
-  onComplete: (option: {
-    description: string;
-    example: string;
-    label: string;
-    imageCount: number;
-    price: string;
-    type: OptionType;
-  }) => void;
+  onComplete: (option: OrderFormDraftOption) => void;
   onOpenChange: (open: boolean) => void;
   open: boolean;
 };
 
-const optionTypes: { label: string; type: OptionType }[] = [
+const optionTypes: { label: string; type: OrderFormDraftOptionType }[] = [
   { label: "기본", type: "SELECT" },
   { label: "추가설명", type: "SELECT_WITH_TEXT" },
   { label: "사진첨부", type: "IMAGE" },
@@ -40,7 +35,7 @@ export function OrderFormOptionSheet({
   const [description, setDescription] = useState("");
   const [example, setExample] = useState("");
   const [imageCount, setImageCount] = useState(1);
-  const [type, setType] = useState<OptionType>("SELECT");
+  const [type, setType] = useState<OrderFormDraftOptionType>("SELECT");
 
   const completeOption = () => {
     if (
@@ -362,23 +357,6 @@ export function OrderFormOptionSheet({
                   />
                   <span className="text-[11px] leading-4 font-medium tracking-[-0.11px] text-text-unavailable">
                     {price.length}/100
-                  </span>
-                </span>
-              </label>
-              <label className="flex flex-col gap-2">
-                <span className="text-[11px] leading-4 font-medium tracking-[-0.11px] text-text-tertiary">
-                  서브 설명
-                </span>
-                <span className="flex flex-col items-end gap-1">
-                  <Input
-                    className="border-0 bg-surface-subtle px-4 placeholder:text-text-unavailable"
-                    maxLength={100}
-                    onChange={(event) => setDescription(event.target.value)}
-                    placeholder="설명을 입력해주세요"
-                    value={description}
-                  />
-                  <span className="text-[11px] leading-4 font-medium tracking-[-0.11px] text-text-unavailable">
-                    {description.length}/100
                   </span>
                 </span>
               </label>

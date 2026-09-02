@@ -8,6 +8,7 @@ import {
   orderFormCategories,
   type OrderFormCategorySlug,
 } from "@/features/order-form/model/order-form-categories";
+import { useOrderFormDraftStore } from "@/features/order-form/model/order-form-draft";
 import { OrderFormHeader } from "@/features/order-form/ui/order-form-header";
 import { OrderFormConfiguredOptionCard } from "@/features/order-form/ui/order-form-configured-option-card";
 import { OrderFormOptionCard } from "@/features/order-form/ui/order-form-option-card";
@@ -18,22 +19,18 @@ type OrderFormCategoryScreenProps = {
   title: string;
 };
 
+const emptyOptions = [] as const;
+
 export function OrderFormCategoryScreen({
   category,
   title,
 }: OrderFormCategoryScreenProps) {
   const router = useRouter();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const [options, setOptions] = useState<
-    {
-      description: string;
-      example: string;
-      imageCount: number;
-      label: string;
-      price: string;
-      type: string;
-    }[]
-  >([]);
+  const options = useOrderFormDraftStore(
+    (state) => state.optionsByCategory[category] ?? emptyOptions,
+  );
+  const addOption = useOrderFormDraftStore((state) => state.addOption);
   const isOptionLimitReached = options.length === 6;
   const currentCategoryIndex = orderFormCategories.findIndex(
     (item) => item.slug === category,
@@ -78,7 +75,7 @@ export function OrderFormCategoryScreen({
           <div className="flex flex-col gap-4 rounded-seller-md bg-surface-default p-4">
             <OrderFormOptionCard index={options.length + 1} />
             <Button
-              className="h-11 rounded-seller-md py-0 pr-4 pl-0 text-[15px] font-semibold"
+              className="h-11 w-fit shrink-0 gap-0 overflow-hidden rounded-seller-md py-0 pr-4 pl-0 text-[15px] leading-5 font-semibold tracking-[-0.3px]"
               onClick={() => setIsSheetOpen(true)}
               size="md"
             >
@@ -108,9 +105,7 @@ export function OrderFormCategoryScreen({
         </Button>
       </div>
       <OrderFormOptionSheet
-        onComplete={(option) =>
-          setOptions((currentOptions) => [...currentOptions, option])
-        }
+        onComplete={(option) => addOption(category, option)}
         onOpenChange={setIsSheetOpen}
         open={isSheetOpen && !isOptionLimitReached}
       />
