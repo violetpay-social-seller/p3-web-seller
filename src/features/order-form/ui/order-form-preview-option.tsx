@@ -1,4 +1,8 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
+import { Radio } from "@/components/ui/radio";
 import type { OrderFormDraftOption } from "@/features/order-form/model/order-form-draft";
 
 type OrderFormPreviewOptionProps = {
@@ -21,13 +25,7 @@ function OptionHeader({ groupName, option }: OrderFormPreviewOptionProps) {
   return (
     <label className="flex min-h-6 w-full cursor-pointer items-start justify-between gap-3">
       <span className="flex min-w-0 items-start">
-        <span className="-my-1 flex size-8 shrink-0 items-center">
-          <input
-            className="size-[18px] appearance-none rounded-full border-2 border-gray-500 bg-surface-default transition-colors checked:border-[5px] checked:border-gray-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-700"
-            name={groupName}
-            type="radio"
-          />
-        </span>
+        <Radio className="-my-1" name={groupName} />
         <p className="min-w-0 text-base leading-6 tracking-[-0.32px]">
           {option.label}
         </p>
@@ -47,6 +45,50 @@ function Description({ value }: { value: string }) {
   ) : null;
 }
 
+type PreviewTextFieldProps = {
+  label: string;
+  maxLength: number;
+  multiline?: boolean;
+  placeholder: string;
+};
+
+function PreviewTextField({
+  label,
+  maxLength,
+  multiline = false,
+  placeholder,
+}: PreviewTextFieldProps) {
+  const [length, setLength] = useState(0);
+  const fieldClassName =
+    "w-full rounded-seller-sm bg-surface-subtle px-4 py-2 text-base leading-6 tracking-[-0.32px] outline-none placeholder:text-text-unavailable";
+
+  return (
+    <div className="flex flex-col items-end gap-1">
+      {multiline ? (
+        <textarea
+          aria-label={label}
+          className={`${fieldClassName} min-h-[88px] resize-none`}
+          maxLength={maxLength}
+          onChange={(event) => setLength(event.currentTarget.value.length)}
+          placeholder={placeholder}
+        />
+      ) : (
+        <input
+          aria-label={label}
+          className={`${fieldClassName} h-11`}
+          maxLength={maxLength}
+          onChange={(event) => setLength(event.currentTarget.value.length)}
+          placeholder={placeholder}
+          type="text"
+        />
+      )}
+      <span className="text-[11px] leading-4 font-medium tracking-[-0.11px] text-text-unavailable">
+        {length}/{maxLength}
+      </span>
+    </div>
+  );
+}
+
 export function OrderFormPreviewOption({
   groupName,
   option,
@@ -54,14 +96,12 @@ export function OrderFormPreviewOption({
   if (option.type === "TEXTAREA") {
     return (
       <div className="flex flex-col gap-2">
-        <div className="flex flex-col items-end gap-1">
-          <div className="min-h-[88px] w-full rounded-seller-sm bg-surface-subtle px-4 py-2 text-base leading-6 tracking-[-0.32px] text-text-unavailable">
-            {option.example || "요청사항을 입력해주세요"}
-          </div>
-          <span className="text-[11px] leading-4 font-medium tracking-[-0.11px] text-text-unavailable">
-            0/500
-          </span>
-        </div>
+        <PreviewTextField
+          label={option.label}
+          maxLength={500}
+          multiline
+          placeholder={option.example || "요청사항을 입력해주세요"}
+        />
         <Description value={option.description} />
       </div>
     );
@@ -93,14 +133,11 @@ export function OrderFormPreviewOption({
     return (
       <div className="flex flex-col gap-2">
         <OptionHeader groupName={groupName} option={option} />
-        <div className="flex flex-col items-end gap-1">
-          <div className="flex h-11 w-full items-center rounded-seller-sm bg-surface-subtle px-4 text-base leading-6 tracking-[-0.32px] text-text-unavailable">
-            {option.example || "설명예시를 입력해주세요"}
-          </div>
-          <span className="text-[11px] leading-4 font-medium tracking-[-0.11px] text-text-unavailable">
-            0/100
-          </span>
-        </div>
+        <PreviewTextField
+          label={`${option.label} 상세 입력`}
+          maxLength={100}
+          placeholder={option.example || "설명예시를 입력해주세요"}
+        />
         <Description value={option.description} />
       </div>
     );
