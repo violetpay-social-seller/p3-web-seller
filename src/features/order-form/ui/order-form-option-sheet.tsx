@@ -13,6 +13,7 @@ import type {
 import { cn } from "@/lib/utils";
 
 type OrderFormOptionSheetProps = {
+  initialOption?: OrderFormDraftOption;
   onComplete: (option: OrderFormDraftOption) => void;
   onOpenChange: (open: boolean) => void;
   open: boolean;
@@ -26,16 +27,21 @@ const optionTypes: { label: string; type: OrderFormDraftOptionType }[] = [
 ];
 
 export function OrderFormOptionSheet({
+  initialOption,
   onComplete,
   onOpenChange,
   open,
 }: OrderFormOptionSheetProps) {
-  const [label, setLabel] = useState("");
-  const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
-  const [example, setExample] = useState("");
-  const [imageCount, setImageCount] = useState(1);
-  const [type, setType] = useState<OrderFormDraftOptionType>("SELECT");
+  const [label, setLabel] = useState(initialOption?.label ?? "");
+  const [price, setPrice] = useState(initialOption?.price ?? "");
+  const [description, setDescription] = useState(
+    initialOption?.description ?? "",
+  );
+  const [example, setExample] = useState(initialOption?.example ?? "");
+  const [imageCount, setImageCount] = useState(initialOption?.imageCount ?? 1);
+  const [type, setType] = useState<OrderFormDraftOptionType>(
+    initialOption?.type ?? "SELECT",
+  );
 
   const completeOption = () => {
     if (
@@ -52,12 +58,6 @@ export function OrderFormOptionSheet({
       price,
       type,
     });
-    setLabel("");
-    setPrice("");
-    setDescription("");
-    setExample("");
-    setImageCount(1);
-    setType("SELECT");
     onOpenChange(false);
   };
 

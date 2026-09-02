@@ -1,15 +1,11 @@
 import { Upload } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import type { OrderFormDraftOption } from "@/features/order-form/model/order-form-draft";
+import { cn } from "@/lib/utils";
 
-type OrderFormConfiguredOptionCardProps = {
-  description: string;
-  example: string;
-  imageCount: number;
+type OrderFormConfiguredOptionCardProps = OrderFormDraftOption & {
   index: number;
-  label: string;
-  price: string;
-  type: string;
+  onSelect: () => void;
+  selected: boolean;
 };
 
 function formatPrice(price: string) {
@@ -29,11 +25,21 @@ export function OrderFormConfiguredOptionCard({
   imageCount,
   index,
   label,
+  onSelect,
   price,
+  selected,
   type,
 }: OrderFormConfiguredOptionCardProps) {
   return (
-    <article className="flex flex-col gap-2 rounded-seller-md bg-surface-default p-4">
+    <button
+      aria-pressed={selected}
+      className={cn(
+        "flex w-full flex-col gap-2 rounded-seller-md bg-surface-default p-4 text-left outline-none",
+        "focus-visible:ring-2 focus-visible:ring-seller-primary focus-visible:ring-offset-2",
+      )}
+      onClick={onSelect}
+      type="button"
+    >
       <p className="text-[11px] leading-4 font-medium tracking-[-0.11px] text-text-tertiary">
         옵션 {index}
       </p>
@@ -45,11 +51,9 @@ export function OrderFormConfiguredOptionCard({
       ) : null}
       {type === "SELECT_WITH_TEXT" ? (
         <>
-          <Input
-            className="border-0 bg-surface-subtle px-4 placeholder:text-text-unavailable"
-            placeholder={example || "설명예시를 입력해주세요"}
-            readOnly
-          />
+          <div className="flex h-11 w-full items-center rounded-seller-sm bg-surface-subtle px-4 text-base leading-6 tracking-[-0.32px] text-text-unavailable">
+            {example || "설명예시를 입력해주세요"}
+          </div>
           {description ? (
             <p className="text-[11px] leading-4 font-medium tracking-[-0.11px] text-text-tertiary">
               * {description}
@@ -79,11 +83,9 @@ export function OrderFormConfiguredOptionCard({
         </>
       ) : type === "TEXTAREA" ? (
         <>
-          <Textarea
-            className="min-h-[88px] resize-none border-0 bg-surface-subtle px-4 py-2 placeholder:text-text-unavailable"
-            readOnly
-            value={example}
-          />
+          <div className="min-h-[88px] w-full rounded-seller-sm bg-surface-subtle px-4 py-2 text-base leading-6 tracking-[-0.32px] text-text-unavailable">
+            {example}
+          </div>
           {description ? (
             <p className="text-[11px] leading-4 font-medium tracking-[-0.11px] text-text-tertiary">
               * {description}
@@ -91,6 +93,6 @@ export function OrderFormConfiguredOptionCard({
           ) : null}
         </>
       ) : null}
-    </article>
+    </button>
   );
 }

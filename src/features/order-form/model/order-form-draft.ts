@@ -22,6 +22,12 @@ type OrderFormDraftState = {
   optionsByCategory: Partial<
     Record<OrderFormCategorySlug, OrderFormDraftOption[]>
   >;
+  removeOption: (category: OrderFormCategorySlug, index: number) => void;
+  updateOption: (
+    category: OrderFormCategorySlug,
+    index: number,
+    option: OrderFormDraftOption,
+  ) => void;
 };
 
 export const useOrderFormDraftStore = create<OrderFormDraftState>()(
@@ -35,6 +41,25 @@ export const useOrderFormDraftStore = create<OrderFormDraftState>()(
           },
         })),
       optionsByCategory: {},
+      removeOption: (category, index) =>
+        set((state) => ({
+          optionsByCategory: {
+            ...state.optionsByCategory,
+            [category]: (state.optionsByCategory[category] ?? []).filter(
+              (_, optionIndex) => optionIndex !== index,
+            ),
+          },
+        })),
+      updateOption: (category, index, option) =>
+        set((state) => ({
+          optionsByCategory: {
+            ...state.optionsByCategory,
+            [category]: (state.optionsByCategory[category] ?? []).map(
+              (currentOption, optionIndex) =>
+                optionIndex === index ? option : currentOption,
+            ),
+          },
+        })),
     }),
     {
       name: "seller-order-form-draft",
