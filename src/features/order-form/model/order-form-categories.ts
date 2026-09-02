@@ -15,18 +15,35 @@ export type OrderFormCategory = {
     | "PACKAGING"
     | "OTHER_REQUEST";
   label: string;
+  required: boolean;
   slug: OrderFormCategorySlug;
 };
 
 export const orderFormCategories: OrderFormCategory[] = [
-  { apiCategory: "SIZE", label: "사이즈", slug: "size" },
-  { apiCategory: "SHAPE", label: "모양", slug: "shape" },
-  { apiCategory: "CAKE_FLAVOR", label: "케이크 맛", slug: "cake-flavor" },
-  { apiCategory: "CAKE_DESIGN", label: "케이크 디자인", slug: "cake-design" },
-  { apiCategory: "PACKAGING", label: "포장방식", slug: "packaging" },
+  { apiCategory: "SIZE", label: "사이즈", required: true, slug: "size" },
+  { apiCategory: "SHAPE", label: "모양", required: true, slug: "shape" },
+  {
+    apiCategory: "CAKE_FLAVOR",
+    label: "케이크 맛",
+    required: true,
+    slug: "cake-flavor",
+  },
+  {
+    apiCategory: "CAKE_DESIGN",
+    label: "케이크 디자인",
+    required: false,
+    slug: "cake-design",
+  },
+  {
+    apiCategory: "PACKAGING",
+    label: "포장 방식",
+    required: true,
+    slug: "packaging",
+  },
   {
     apiCategory: "OTHER_REQUEST",
     label: "기타 요청사항",
+    required: false,
     slug: "other-request",
   },
 ];
