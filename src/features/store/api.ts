@@ -4,6 +4,7 @@ import type {
   RepresentativeImage,
   Store,
   StoreInput,
+  StoreManagementStatus,
   StoreSettings,
   StoreSettingsInput,
   StoreShareLink,
@@ -12,6 +13,8 @@ import type {
 } from "@/features/store/types";
 
 export const getStore = () => getJson<Store>("/seller/store");
+export const getStoreManagementStatus = () =>
+  getJson<StoreManagementStatus>("/seller/store/management-status");
 export const createStore = (input: StoreInput) =>
   sendJson<Store>("/seller/store", "POST", input);
 export const updateStore = (input: StoreInput) =>

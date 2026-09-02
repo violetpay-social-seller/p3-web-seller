@@ -51,6 +51,21 @@ export type StoreSettings = StoreSettingsInput & { storeId: string };
 
 export type StoreShareLink = { slug: string; url: string };
 
+export type StoreManagementStatus = {
+  storeName: string;
+  completedCount: number;
+  totalCount: number;
+  items: {
+    storeInfo: boolean;
+    orderForm: boolean;
+    notice: boolean;
+    photoRegistration: boolean;
+    settlementAccount: boolean;
+  };
+  canActivate: boolean;
+  activationBlockedReasons: string[];
+};
+
 export type RepresentativeImage = {
   id: string;
   storeId: string;

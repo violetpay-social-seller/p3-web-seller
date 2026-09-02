@@ -129,6 +129,10 @@ export function clearCognitoSession() {
   setAccessTokenProvider();
 }
 
+export function hasCognitoSession() {
+  return readSession() !== null;
+}
+
 async function getApiToken() {
   const session = readSession();
 

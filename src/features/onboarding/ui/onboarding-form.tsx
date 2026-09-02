@@ -6,6 +6,7 @@ import { useCreateOnboardingMutation } from "@/features/onboarding/model/onboard
 import type { SellerOnboardingInput } from "@/features/onboarding/model/types";
 import { OnboardingTextField } from "@/features/onboarding/ui/onboarding-text-field";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 
@@ -36,6 +37,7 @@ const fieldLabelClassName =
   "text-[18px] leading-6 font-semibold tracking-[-0.54px] [&>span]:text-[15px] [&>span]:leading-5 [&>span]:tracking-[-0.3px]";
 
 export function OnboardingForm() {
+  const router = useRouter();
   const createMutation = useCreateOnboardingMutation();
   const form = useForm<Values>({
     resolver: zodResolver(schema),
@@ -60,6 +62,7 @@ export function OnboardingForm() {
       snsLink: values.snsLink.trim() || null,
     };
     await createMutation.mutateAsync(input);
+    router.replace("/onboarding/pending");
   }
 
   return (
