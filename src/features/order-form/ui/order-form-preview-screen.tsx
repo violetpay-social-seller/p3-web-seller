@@ -28,6 +28,7 @@ export function OrderFormPreviewScreen() {
           <div className="flex flex-col gap-12 rounded-seller-sm bg-surface-default px-4 py-6 shadow-[0_1px_1.5px_rgba(0,0,0,0.06),0_1px_1px_rgba(0,0,0,0.04)]">
             {configuredCategories.map((category) => (
               <OrderFormPreviewCategory
+                groupName={`preview-${category.slug}`}
                 key={category.slug}
                 options={optionsByCategory[category.slug] ?? []}
                 required={category.required}

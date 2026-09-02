@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { OrderFormDraftOption } from "@/features/order-form/model/order-form-draft";
 
 type OrderFormPreviewOptionProps = {
+  groupName: string;
   option: OrderFormDraftOption;
 };
 
@@ -16,30 +17,25 @@ function formatPrice(price: string) {
   return `+ ${Number(normalizedPrice).toLocaleString("ko-KR")}원`;
 }
 
-function OptionHeader({ option }: OrderFormPreviewOptionProps) {
+function OptionHeader({ groupName, option }: OrderFormPreviewOptionProps) {
   return (
-    <div className="flex min-h-6 w-full items-start justify-between gap-3">
-      <div className="flex min-w-0 items-start">
-        <Image
-          alt=""
-          aria-hidden="true"
-          className="-my-1 size-8 shrink-0"
-          height={32}
-          src={
-            option.type === "SELECT"
-              ? "/order-form/radio.svg"
-              : "/order-form/radio-with-input.svg"
-          }
-          width={32}
-        />
+    <label className="flex min-h-6 w-full cursor-pointer items-start justify-between gap-3">
+      <span className="flex min-w-0 items-start">
+        <span className="-my-1 flex size-8 shrink-0 items-center">
+          <input
+            className="size-[18px] appearance-none rounded-full border-2 border-gray-500 bg-surface-default transition-colors checked:border-[5px] checked:border-gray-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-700"
+            name={groupName}
+            type="radio"
+          />
+        </span>
         <p className="min-w-0 text-base leading-6 tracking-[-0.32px]">
           {option.label}
         </p>
-      </div>
+      </span>
       <p className="shrink-0 text-right text-[15px] leading-[22px] font-semibold tracking-[-0.15px]">
         {formatPrice(option.price)}
       </p>
-    </div>
+    </label>
   );
 }
 
@@ -52,6 +48,7 @@ function Description({ value }: { value: string }) {
 }
 
 export function OrderFormPreviewOption({
+  groupName,
   option,
 }: OrderFormPreviewOptionProps) {
   if (option.type === "TEXTAREA") {
@@ -73,7 +70,7 @@ export function OrderFormPreviewOption({
   if (option.type === "IMAGE") {
     return (
       <div className="flex flex-col gap-2">
-        <OptionHeader option={option} />
+        <OptionHeader groupName={groupName} option={option} />
         <div
           aria-label={`사진 ${option.imageCount}장 첨부 영역`}
           className="flex size-[100px] items-center justify-center rounded-seller-sm bg-surface-subtle"
@@ -95,7 +92,7 @@ export function OrderFormPreviewOption({
   if (option.type === "SELECT_WITH_TEXT") {
     return (
       <div className="flex flex-col gap-2">
-        <OptionHeader option={option} />
+        <OptionHeader groupName={groupName} option={option} />
         <div className="flex flex-col items-end gap-1">
           <div className="flex h-11 w-full items-center rounded-seller-sm bg-surface-subtle px-4 text-base leading-6 tracking-[-0.32px] text-text-unavailable">
             {option.example || "설명예시를 입력해주세요"}
@@ -111,7 +108,7 @@ export function OrderFormPreviewOption({
 
   return (
     <div className="flex flex-col gap-2">
-      <OptionHeader option={option} />
+      <OptionHeader groupName={groupName} option={option} />
       <Description value={option.description} />
     </div>
   );

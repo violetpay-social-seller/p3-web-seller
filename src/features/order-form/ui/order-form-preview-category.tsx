@@ -2,12 +2,14 @@ import type { OrderFormDraftOption } from "@/features/order-form/model/order-for
 import { OrderFormPreviewOption } from "@/features/order-form/ui/order-form-preview-option";
 
 type OrderFormPreviewCategoryProps = {
+  groupName: string;
   options: OrderFormDraftOption[];
   required: boolean;
   title: string;
 };
 
 export function OrderFormPreviewCategory({
+  groupName,
   options,
   required,
   title,
@@ -25,6 +27,7 @@ export function OrderFormPreviewCategory({
       <div className="flex flex-col gap-6">
         {options.map((option, index) => (
           <OrderFormPreviewOption
+            groupName={groupName}
             key={`${option.type}-${option.label}-${index}`}
             option={option}
           />
