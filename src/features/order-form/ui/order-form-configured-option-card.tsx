@@ -12,6 +12,17 @@ type OrderFormConfiguredOptionCardProps = {
   type: string;
 };
 
+function formatPrice(price: string) {
+  const trimmedPrice = price.trim();
+  const normalizedPrice = trimmedPrice.replace(/,/g, "");
+
+  if (!/^\d+$/.test(normalizedPrice)) {
+    return trimmedPrice;
+  }
+
+  return `+ ${Number(normalizedPrice).toLocaleString("ko-KR")}원`;
+}
+
 export function OrderFormConfiguredOptionCard({
   description,
   example,
@@ -26,10 +37,10 @@ export function OrderFormConfiguredOptionCard({
       <p className="text-[11px] leading-4 font-medium tracking-[-0.11px] text-text-tertiary">
         옵션 {index}
       </p>
-      {type !== "TEXTAREA" ? (
+      {type === "SELECT" || type === "SELECT_WITH_TEXT" ? (
         <div className="flex items-start justify-between gap-4 text-seller-heading-md font-semibold tracking-[-0.54px]">
           <p>{label}</p>
-          <p className="shrink-0">+ {price || "0"}</p>
+          <p className="shrink-0">{formatPrice(price)}</p>
         </div>
       ) : null}
       {type === "SELECT_WITH_TEXT" ? (
@@ -47,6 +58,12 @@ export function OrderFormConfiguredOptionCard({
         </>
       ) : type === "IMAGE" ? (
         <>
+          <div className="flex items-center gap-0 text-seller-heading-md font-semibold tracking-[-0.54px]">
+            <p>{label || "사진첨부"}</p>
+            <p className="ml-1 text-[15px] leading-5 font-medium tracking-[-0.3px] text-text-tertiary">
+              {price || "문의필요"}
+            </p>
+          </div>
           <div
             aria-label={`사진 ${imageCount}장 첨부`}
             className="flex size-[100px] items-center justify-center rounded-seller-sm bg-surface-subtle text-text-tertiary"
