@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 import { orderFormCategories } from "@/features/order-form/model/order-form-categories";
 import { useOrderFormDraftStore } from "@/features/order-form/model/order-form-draft";
 import { OrderFormCategoryRow } from "@/features/order-form/ui/order-form-category-row";
@@ -8,6 +9,7 @@ import { OrderFormHeader } from "@/features/order-form/ui/order-form-header";
 import { useStoreManagementStatusQuery } from "@/features/store/queries";
 
 export function OrderFormScreen() {
+  const router = useRouter();
   const statusQuery = useStoreManagementStatusQuery();
   const optionsByCategory = useOrderFormDraftStore(
     (state) => state.optionsByCategory,
@@ -40,6 +42,7 @@ export function OrderFormScreen() {
       <div className="flex gap-2 px-4 pt-4 pb-[34px]">
         <Button
           className="h-11 flex-1 rounded-seller-md text-[15px] font-semibold"
+          onClick={() => router.push("/seller/order-form/preview")}
           size="md"
           variant="outline"
         >

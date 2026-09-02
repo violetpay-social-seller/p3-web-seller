@@ -1,12 +1,14 @@
 import { ChevronLeft, Menu } from "lucide-react";
 
 type OrderFormHeaderProps = {
+  backLabel?: string;
   backHref: string;
   showMenu?: boolean;
   title?: string;
 };
 
 export function OrderFormHeader({
+  backLabel = "스토어 관리로 돌아가기",
   backHref,
   showMenu = true,
   title,
@@ -14,7 +16,7 @@ export function OrderFormHeader({
   return (
     <header className="grid h-14 grid-cols-[48px_1fr_48px] items-center">
       <a
-        aria-label="스토어 관리로 돌아가기"
+        aria-label={backLabel}
         className="flex size-12 items-center justify-center"
         href={backHref}
       >

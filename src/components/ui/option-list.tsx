@@ -1,5 +1,5 @@
-import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Radio } from "@/components/ui/radio";
 
 type OptionListProps = {
   className?: string;
@@ -26,19 +26,11 @@ export function OptionList({
           className="flex cursor-pointer items-center gap-3 p-3"
           key={option.value}
         >
-          <input
-            className="peer sr-only"
+          <Radio
             defaultChecked={option.value === value}
             name={name}
-            type="radio"
             value={option.value}
           />
-          <span className="flex size-5 items-center justify-center rounded-full border border-seller-border peer-checked:border-seller-primary peer-checked:bg-seller-primary">
-            <Check
-              aria-hidden="true"
-              className="text-text-inverse size-3.5 opacity-0 peer-checked:opacity-100"
-            />
-          </span>
           <span className="min-w-0">
             <span className="block text-sm font-medium">{option.label}</span>
             {option.description ? (
