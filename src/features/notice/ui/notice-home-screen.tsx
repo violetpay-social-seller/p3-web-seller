@@ -2,19 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import { SettingRow } from "@/components/ui/setting-row/setting-row";
+import { noticeCategories } from "@/features/notice/model/notice-categories";
+import { useNoticeDraftStore } from "@/features/notice/model/notice-draft";
 import { useStoreManagementStatusQuery } from "@/features/store/queries";
 import { OrderFormHeader } from "@/features/order-form/ui/order-form-header";
 
-const noticeItems = [
-  "픽업 및 배송 안내",
-  "디자인 제작 안내",
-  "결제 안내",
-  "케이크 관리 안내",
-  "영업시간 안내",
-];
-
 export function NoticeHomeScreen() {
   const statusQuery = useStoreManagementStatusQuery();
+  const itemsByType = useNoticeDraftStore((state) => state.itemsByType);
   const storeName = statusQuery.data?.storeName ?? "스토어";
 
   return (
@@ -30,8 +25,15 @@ export function NoticeHomeScreen() {
           </p>
         </div>
         <div className="space-y-2">
-          {noticeItems.map((label) => (
-            <SettingRow completed key={label} label={label} />
+          {noticeCategories.map((category) => (
+            <SettingRow
+              completed={
+                itemsByType[category.type]?.some((item) => item.trim()) ?? false
+              }
+              href={`/seller/notice/${category.slug}`}
+              key={category.type}
+              label={category.label}
+            />
           ))}
         </div>
       </section>
@@ -48,7 +50,7 @@ export function NoticeHomeScreen() {
           disabled
           size="md"
         >
-          Placeholder
+          저장
         </Button>
       </div>
     </main>
