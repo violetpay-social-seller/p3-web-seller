@@ -22,6 +22,7 @@ type OrderFormDraftState = {
   optionsByCategory: Partial<
     Record<OrderFormCategorySlug, OrderFormDraftOption[]>
   >;
+  resetOptions: () => void;
   removeOption: (category: OrderFormCategorySlug, index: number) => void;
   updateOption: (
     category: OrderFormCategorySlug,
@@ -41,6 +42,7 @@ export const useOrderFormDraftStore = create<OrderFormDraftState>()(
           },
         })),
       optionsByCategory: {},
+      resetOptions: () => set({ optionsByCategory: {} }),
       removeOption: (category, index) =>
         set((state) => ({
           optionsByCategory: {
