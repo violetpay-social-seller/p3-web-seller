@@ -1,4 +1,5 @@
 import { Check, ChevronRight } from "lucide-react";
+import Link from "next/link";
 
 type OrderFormCategoryRowProps = {
   completed: boolean;
@@ -12,7 +13,7 @@ export function OrderFormCategoryRow({
   label,
 }: OrderFormCategoryRowProps) {
   return (
-    <a
+    <Link
       className="flex h-[71.83px] w-full items-center gap-5 rounded-seller-sm bg-surface-subtle px-4 text-left transition-colors hover:bg-seller-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-seller-primary"
       href={href}
     >
@@ -36,6 +37,6 @@ export function OrderFormCategoryRow({
         aria-hidden="true"
         className="ml-auto size-6 shrink-0 text-text-secondary"
       />
-    </a>
+    </Link>
   );
 }

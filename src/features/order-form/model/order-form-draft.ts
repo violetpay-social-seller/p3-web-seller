@@ -22,13 +22,18 @@ type OrderFormDraftState = {
   optionsByCategory: Partial<
     Record<OrderFormCategorySlug, OrderFormDraftOption[]>
   >;
-  resetOptions: () => void;
+  replaceDraft: (
+    templateId: string | null,
+    optionsByCategory: OrderFormDraftState["optionsByCategory"],
+  ) => void;
+  resetDraft: () => void;
   removeOption: (category: OrderFormCategorySlug, index: number) => void;
   updateOption: (
     category: OrderFormCategorySlug,
     index: number,
     option: OrderFormDraftOption,
   ) => void;
+  templateId: string | null;
 };
 
 export const useOrderFormDraftStore = create<OrderFormDraftState>()(
@@ -42,7 +47,9 @@ export const useOrderFormDraftStore = create<OrderFormDraftState>()(
           },
         })),
       optionsByCategory: {},
-      resetOptions: () => set({ optionsByCategory: {} }),
+      replaceDraft: (templateId, optionsByCategory) =>
+        set({ optionsByCategory, templateId }),
+      resetDraft: () => set({ optionsByCategory: {}, templateId: null }),
       removeOption: (category, index) =>
         set((state) => ({
           optionsByCategory: {
@@ -62,6 +69,7 @@ export const useOrderFormDraftStore = create<OrderFormDraftState>()(
             ),
           },
         })),
+      templateId: null,
     }),
     {
       name: "seller-order-form-draft",
