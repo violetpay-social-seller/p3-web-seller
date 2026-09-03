@@ -1,24 +1,18 @@
 import { Check, ChevronRight } from "lucide-react";
 import Link from "next/link";
 
-type OrderFormCategoryRowProps = {
+type SettingRowProps = {
   completed: boolean;
-  href: string;
+  href?: string;
   label: string;
 };
 
-export function OrderFormCategoryRow({
-  completed,
-  href,
-  label,
-}: OrderFormCategoryRowProps) {
-  return (
-    <Link
-      className="flex h-[71.83px] w-full items-center gap-5 rounded-seller-sm bg-surface-subtle px-4 text-left transition-colors hover:bg-seller-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-seller-primary"
-      href={href}
-    >
+export function SettingRow({ completed, href, label }: SettingRowProps) {
+  const content = (
+    <>
       <span className="flex size-6 shrink-0 items-center justify-center overflow-hidden p-[3px]">
         <span
+          aria-hidden="true"
           className={
             completed
               ? "flex size-[18px] items-center justify-center rounded-[6px] bg-text-secondary text-text-inverse"
@@ -37,6 +31,18 @@ export function OrderFormCategoryRow({
         aria-hidden="true"
         className="ml-auto size-6 shrink-0 text-text-secondary"
       />
+    </>
+  );
+  const className =
+    "flex h-[87.8px] w-full items-center gap-5 rounded-seller-sm bg-surface-subtle px-4 text-left transition-colors hover:bg-seller-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-seller-primary";
+
+  return href ? (
+    <Link className={className} href={href}>
+      {content}
     </Link>
+  ) : (
+    <button className={className} type="button">
+      {content}
+    </button>
   );
 }

@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useStoreManagementStatusQuery } from "@/features/store/queries";
 import { StoreManagementHeader } from "@/features/store/ui/store-management-header";
-import { StoreManagementSettingRow } from "@/features/store/ui/store-management-setting-row";
+import { SettingRow } from "@/components/ui/setting-row/setting-row";
 
 export function StoreManagementScreen() {
   const statusQuery = useStoreManagementStatusQuery();
@@ -16,7 +16,11 @@ export function StoreManagementScreen() {
       href: "/seller/order-form",
       label: "주문서 양식",
     },
-    { completed: items?.notice ?? false, label: "공지사항" },
+    {
+      completed: items?.notice ?? false,
+      href: "/seller/notice",
+      label: "공지사항",
+    },
     { completed: items?.photoRegistration ?? false, label: "사진등록" },
     {
       completed: items?.settlementAccount ?? false,
@@ -32,10 +36,10 @@ export function StoreManagementScreen() {
       <StoreManagementHeader />
       <section className="flex flex-1 flex-col gap-8 overflow-y-auto px-4 pt-6 pb-4">
         <div className="space-y-2">
-          <h2 className="whitespace-pre-line text-seller-display-lg font-bold tracking-[-0.84px]">
+          <h2 className="text-seller-display-lg font-bold tracking-[-0.84px] whitespace-pre-line">
             {`‘${storeName}’스토어\n정보를 채워주세요`}
           </h2>
-          <p className="text-seller-body-md text-text-secondary tracking-[-0.32px]">
+          <p className="text-seller-body-md tracking-[-0.32px] text-text-secondary">
             {statusQuery.isLoading
               ? "스토어 정보를 불러오고 있어요."
               : `${totalCount}개 중 ${completedCount}개를 채웠어요. 모두 채우면 스토어를 열 수 있어요.`}
@@ -43,7 +47,7 @@ export function StoreManagementScreen() {
         </div>
         <div className="space-y-2">
           {settings.map((setting) => (
-            <StoreManagementSettingRow key={setting.label} {...setting} />
+            <SettingRow key={setting.label} {...setting} />
           ))}
         </div>
       </section>
