@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { orderFormCategories } from "@/features/order-form/model/order-form-categories";
 import { useOrderFormDraftStore } from "@/features/order-form/model/order-form-draft";
-import { useCreateOrderFormMutation } from "@/features/order-form/model/order-form-mutations";
+import { useSaveOrderFormMutation } from "@/features/order-form/model/order-form-mutations";
 import {
   buildCreateOrderFormInput,
   hasEveryOrderFormCategory,
@@ -16,11 +16,12 @@ import { useStoreManagementStatusQuery } from "@/features/store/queries";
 export function OrderFormScreen() {
   const router = useRouter();
   const statusQuery = useStoreManagementStatusQuery();
-  const createMutation = useCreateOrderFormMutation();
+  const saveMutation = useSaveOrderFormMutation();
   const optionsByCategory = useOrderFormDraftStore(
     (state) => state.optionsByCategory,
   );
-  const resetOptions = useOrderFormDraftStore((state) => state.resetOptions);
+  const resetDraft = useOrderFormDraftStore((state) => state.resetDraft);
+  const templateId = useOrderFormDraftStore((state) => state.templateId);
   const storeName = statusQuery.data?.storeName ?? "스토어";
   const isComplete = hasEveryOrderFormCategory(optionsByCategory);
 
@@ -29,11 +30,17 @@ export function OrderFormScreen() {
       return;
     }
 
-    createMutation.mutate(
-      buildCreateOrderFormInput(statusQuery.data.storeName, optionsByCategory),
+    saveMutation.mutate(
+      {
+        input: buildCreateOrderFormInput(
+          statusQuery.data.storeName,
+          optionsByCategory,
+        ),
+        templateId,
+      },
       {
         onSuccess: () => {
-          resetOptions();
+          resetDraft();
           router.replace("/seller/store-management");
         },
       },
@@ -64,10 +71,10 @@ export function OrderFormScreen() {
         </div>
       </section>
       <div className="flex flex-col gap-2 px-4 pt-4 pb-[34px]">
-        {createMutation.error ? (
+        {saveMutation.error ? (
           <p aria-live="polite" className="text-sm text-text-error">
-            {createMutation.error instanceof Error
-              ? createMutation.error.message
+            {saveMutation.error instanceof Error
+              ? saveMutation.error.message
               : "주문서 양식을 저장하지 못했습니다. 잠시 후 다시 시도해 주세요."}
           </p>
         ) : null}
@@ -83,12 +90,12 @@ export function OrderFormScreen() {
           <Button
             className="h-11 flex-1 rounded-seller-md text-[15px] font-semibold"
             disabled={
-              !isComplete || !statusQuery.data || createMutation.isPending
+              !isComplete || !statusQuery.data || saveMutation.isPending
             }
             onClick={saveOrderForm}
             size="md"
           >
-            {createMutation.isPending ? "저장 중..." : "저장"}
+            {saveMutation.isPending ? "저장 중..." : "저장"}
           </Button>
         </div>
       </div>
