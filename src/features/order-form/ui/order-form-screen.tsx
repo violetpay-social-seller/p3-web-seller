@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { SettingRow } from "@/components/ui/setting-row/setting-row";
 import { useRouter } from "next/navigation";
 import { orderFormCategories } from "@/features/order-form/model/order-form-categories";
 import { useOrderFormDraftStore } from "@/features/order-form/model/order-form-draft";
@@ -9,7 +10,6 @@ import {
   buildCreateOrderFormInput,
   hasEveryOrderFormCategory,
 } from "@/features/order-form/model/order-form-request";
-import { OrderFormCategoryRow } from "@/features/order-form/ui/order-form-category-row";
 import { OrderFormHeader } from "@/features/order-form/ui/order-form-header";
 import { useStoreManagementStatusQuery } from "@/features/store/queries";
 
@@ -61,7 +61,7 @@ export function OrderFormScreen() {
         </div>
         <div className="space-y-2">
           {orderFormCategories.map((category) => (
-            <OrderFormCategoryRow
+            <SettingRow
               completed={(optionsByCategory[category.slug]?.length ?? 0) > 0}
               href={`/seller/order-form/${category.slug}`}
               key={category.slug}

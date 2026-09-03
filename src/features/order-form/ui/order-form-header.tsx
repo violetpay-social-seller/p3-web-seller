@@ -1,4 +1,5 @@
 import { ChevronLeft, Menu } from "lucide-react";
+import Link from "next/link";
 
 type OrderFormHeaderProps = {
   backLabel?: string;
@@ -15,13 +16,13 @@ export function OrderFormHeader({
 }: OrderFormHeaderProps) {
   return (
     <header className="grid h-14 grid-cols-[48px_1fr_48px] items-center">
-      <a
+      <Link
         aria-label={backLabel}
         className="flex size-12 items-center justify-center"
         href={backHref}
       >
         <ChevronLeft aria-hidden="true" className="size-6" strokeWidth={2} />
-      </a>
+      </Link>
       {title ? (
         <h1 className="text-center text-seller-display-sm font-bold tracking-[-0.66px]">
           {title}
