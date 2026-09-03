@@ -27,10 +27,15 @@ export function OrderFormCategoryScreen({
 }: OrderFormCategoryScreenProps) {
   const router = useRouter();
   const [isSheetOpen, setIsSheetOpen] = useState(false);
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [sheetSession, setSheetSession] = useState(0);
   const options = useOrderFormDraftStore(
     (state) => state.optionsByCategory[category] ?? emptyOptions,
   );
   const addOption = useOrderFormDraftStore((state) => state.addOption);
+  const removeOption = useOrderFormDraftStore((state) => state.removeOption);
+  const updateOption = useOrderFormDraftStore((state) => state.updateOption);
   const isOptionLimitReached = options.length === 6;
   const currentCategoryIndex = orderFormCategories.findIndex(
     (item) => item.slug === category,
@@ -45,6 +50,32 @@ export function OrderFormCategoryScreen({
     );
   };
 
+  const openAddSheet = () => {
+    setEditingIndex(null);
+    setSheetSession((session) => session + 1);
+    setIsSheetOpen(true);
+  };
+
+  const openEditSheet = (index: number) => {
+    setEditingIndex(index);
+    setSheetSession((session) => session + 1);
+    setIsSheetOpen(true);
+  };
+
+  const completeOption = (option: (typeof options)[number]) => {
+    if (editingIndex === null) {
+      addOption(category, option);
+    } else {
+      updateOption(category, editingIndex, option);
+      setSelectedIndex(null);
+    }
+  };
+
+  const deleteOption = (index: number) => {
+    removeOption(category, index);
+    setSelectedIndex(null);
+  };
+
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-[390px] flex-col bg-surface-subtle text-text-primary">
       <div className="bg-surface-default">
@@ -56,16 +87,37 @@ export function OrderFormCategoryScreen({
       </div>
       <section className="flex flex-1 flex-col gap-4 p-4">
         {options.map((option, index) => (
-          <OrderFormConfiguredOptionCard
-            description={option.description}
-            example={option.example}
-            imageCount={option.imageCount}
-            index={index + 1}
-            key={`${option.type}-${option.label}-${index}`}
-            label={option.label}
-            price={option.price}
-            type={option.type}
-          />
+          <div className="flex flex-col gap-2" key={`${option.type}-${index}`}>
+            <OrderFormConfiguredOptionCard
+              {...option}
+              index={index + 1}
+              onSelect={() =>
+                setSelectedIndex((currentIndex) =>
+                  currentIndex === index ? null : index,
+                )
+              }
+              selected={selectedIndex === index}
+            />
+            {selectedIndex === index ? (
+              <div className="flex gap-2">
+                <Button
+                  className="h-9 flex-1 rounded-seller-lg text-[15px] leading-5 font-semibold tracking-[-0.3px]"
+                  onClick={() => deleteOption(index)}
+                  size="md"
+                  variant="outline"
+                >
+                  옵션삭제
+                </Button>
+                <Button
+                  className="h-9 flex-1 rounded-seller-md text-[15px] leading-5 font-semibold tracking-[-0.3px]"
+                  onClick={() => openEditSheet(index)}
+                  size="md"
+                >
+                  옵션수정
+                </Button>
+              </div>
+            ) : null}
+          </div>
         ))}
         {isOptionLimitReached ? (
           <p className="text-[11px] leading-4 font-medium tracking-[-0.11px] text-text-unavailable">
@@ -76,7 +128,7 @@ export function OrderFormCategoryScreen({
             <OrderFormOptionCard index={options.length + 1} />
             <Button
               className="h-11 w-fit shrink-0 gap-0 overflow-hidden rounded-seller-sm py-0 pr-4 pl-0 text-[15px] leading-5 font-semibold tracking-[-0.3px]"
-              onClick={() => setIsSheetOpen(true)}
+              onClick={openAddSheet}
               size="md"
             >
               <span className="flex size-11 items-center justify-center">
@@ -105,9 +157,13 @@ export function OrderFormCategoryScreen({
         </Button>
       </div>
       <OrderFormOptionSheet
-        onComplete={(option) => addOption(category, option)}
+        initialOption={
+          editingIndex === null ? undefined : options[editingIndex]
+        }
+        key={sheetSession}
+        onComplete={completeOption}
         onOpenChange={setIsSheetOpen}
-        open={isSheetOpen && !isOptionLimitReached}
+        open={isSheetOpen && (editingIndex !== null || !isOptionLimitReached)}
       />
     </main>
   );
