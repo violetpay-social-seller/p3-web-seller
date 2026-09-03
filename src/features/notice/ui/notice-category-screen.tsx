@@ -2,7 +2,7 @@
 
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   noticeCategories,
@@ -20,12 +20,13 @@ const emptyItems: string[] = [];
 
 export function NoticeCategoryScreen({ category }: NoticeCategoryScreenProps) {
   const router = useRouter();
-  const [isAdding, setIsAdding] = useState(false);
-  const [newContent, setNewContent] = useState("");
   const items = useNoticeDraftStore(
     (state) => state.itemsByType[category.type] ?? emptyItems,
   );
   const addItem = useNoticeDraftStore((state) => state.addItem);
+  const ensureInitialItem = useNoticeDraftStore(
+    (state) => state.ensureInitialItem,
+  );
   const updateItem = useNoticeDraftStore((state) => state.updateItem);
   const currentCategoryIndex = noticeCategories.findIndex(
     (item) => item.type === category.type,
@@ -33,24 +34,16 @@ export function NoticeCategoryScreen({ category }: NoticeCategoryScreenProps) {
   const nextCategory = noticeCategories[currentCategoryIndex + 1];
   const isItemLimitReached = items.length >= 6;
 
+  useEffect(() => {
+    ensureInitialItem(category.type);
+  }, [category.type, ensureInitialItem]);
+
   const addNoticeItem = () => {
     if (isItemLimitReached) {
       return;
     }
 
-    if (!isAdding) {
-      setIsAdding(true);
-      return;
-    }
-
-    const content = newContent.trim();
-    if (!content) {
-      return;
-    }
-
-    addItem(category.type, content);
-    setNewContent("");
-    setIsAdding(false);
+    addItem(category.type, "");
   };
 
   return (
@@ -78,18 +71,11 @@ export function NoticeCategoryScreen({ category }: NoticeCategoryScreenProps) {
                   value={item}
                 />
               ))}
-              {isAdding ? (
-                <NoticeItemInput
-                  onChange={setNewContent}
-                  onClear={() => setNewContent("")}
-                  value={newContent}
-                />
-              ) : null}
             </div>
           </div>
           <Button
             className="h-11 w-fit gap-0 overflow-hidden rounded-seller-md py-0 pr-4 pl-0 text-[15px] leading-5 font-semibold tracking-[-0.3px]"
-            disabled={isItemLimitReached || (isAdding && !newContent.trim())}
+            disabled={isItemLimitReached}
             onClick={addNoticeItem}
             size="md"
           >
