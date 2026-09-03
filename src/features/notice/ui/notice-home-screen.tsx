@@ -64,7 +64,7 @@ export function NoticeHomeScreen() {
             disabled={updateNoticesMutation.isPending}
             onClick={() =>
               updateNoticesMutation.mutate(toUpdateNoticesInput(itemsByType), {
-                onSuccess: () => router.push("/seller/order-form"),
+                onSuccess: () => router.push("/seller/store-management"),
               })
             }
             size="md"
