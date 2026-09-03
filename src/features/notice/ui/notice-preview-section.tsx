@@ -12,10 +12,14 @@ export function NoticePreviewSection({
   items,
   title,
 }: NoticePreviewSectionProps) {
-  const [expanded, setExpanded] = useState(true);
+  const [expanded, setExpanded] = useState(false);
 
   return (
-    <section className="flex flex-col gap-4 rounded-seller-sm bg-surface-default px-4 py-6">
+    <section
+      className={`flex flex-col rounded-seller-sm bg-surface-default px-4 py-6 ${
+        expanded ? "gap-4" : "gap-2"
+      }`}
+    >
       <button
         aria-expanded={expanded}
         className="flex h-6 items-center justify-between text-left"
@@ -28,7 +32,7 @@ export function NoticePreviewSection({
         <ChevronDown
           aria-hidden="true"
           className={`size-6 text-text-secondary transition-transform ${
-            expanded ? "rotate-180" : ""
+            expanded ? "" : "rotate-180"
           }`}
           strokeWidth={2}
         />
