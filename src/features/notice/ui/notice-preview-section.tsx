@@ -12,7 +12,7 @@ export function NoticePreviewSection({
   items,
   title,
 }: NoticePreviewSectionProps) {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
 
   return (
     <section
