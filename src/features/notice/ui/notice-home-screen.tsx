@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { SettingRow } from "@/components/ui/setting-row/setting-row";
 import { noticeCategories } from "@/features/notice/model/notice-categories";
@@ -8,6 +9,7 @@ import { useStoreManagementStatusQuery } from "@/features/store/queries";
 import { OrderFormHeader } from "@/features/order-form/ui/order-form-header";
 
 export function NoticeHomeScreen() {
+  const router = useRouter();
   const statusQuery = useStoreManagementStatusQuery();
   const itemsByType = useNoticeDraftStore((state) => state.itemsByType);
   const storeName = statusQuery.data?.storeName ?? "스토어";
@@ -40,6 +42,7 @@ export function NoticeHomeScreen() {
       <div className="flex gap-2 px-4 pt-4 pb-[34px]">
         <Button
           className="h-11 flex-1 rounded-seller-md text-[15px] font-semibold"
+          onClick={() => router.push("/seller/notice/preview")}
           size="md"
           variant="outline"
         >
