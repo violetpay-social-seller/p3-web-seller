@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { SettingRow } from "@/components/ui/setting-row/setting-row";
 import { noticeCategories } from "@/features/notice/model/notice-categories";
 import { useNoticeDraftStore } from "@/features/notice/model/notice-draft";
+import { useUpdateNoticesMutation } from "@/features/notice/model/notice-mutations";
+import { toUpdateNoticesInput } from "@/features/notice/model/notice-response";
 import { useStoreManagementStatusQuery } from "@/features/store/queries";
 import { OrderFormHeader } from "@/features/order-form/ui/order-form-header";
 
@@ -12,6 +14,7 @@ export function NoticeHomeScreen() {
   const router = useRouter();
   const statusQuery = useStoreManagementStatusQuery();
   const itemsByType = useNoticeDraftStore((state) => state.itemsByType);
+  const updateNoticesMutation = useUpdateNoticesMutation();
   const storeName = statusQuery.data?.storeName ?? "스토어";
 
   return (
@@ -39,22 +42,36 @@ export function NoticeHomeScreen() {
           ))}
         </div>
       </section>
-      <div className="flex gap-2 px-4 pt-4 pb-[34px]">
-        <Button
-          className="h-11 flex-1 rounded-seller-md text-[15px] font-semibold"
-          onClick={() => router.push("/seller/notice/preview")}
-          size="md"
-          variant="outline"
-        >
-          미리보기
-        </Button>
-        <Button
-          className="h-11 flex-1 rounded-seller-md text-[15px] font-semibold"
-          disabled
-          size="md"
-        >
-          저장
-        </Button>
+      <div className="flex flex-col gap-2 px-4 pt-4 pb-[34px]">
+        {updateNoticesMutation.error ? (
+          <p aria-live="polite" className="text-sm text-text-error">
+            {updateNoticesMutation.error instanceof Error
+              ? updateNoticesMutation.error.message
+              : "공지사항을 저장하지 못했습니다. 잠시 후 다시 시도해 주세요."}
+          </p>
+        ) : null}
+        <div className="flex gap-2">
+          <Button
+            className="h-11 flex-1 rounded-seller-md text-[15px] font-semibold"
+            onClick={() => router.push("/seller/notice/preview")}
+            size="md"
+            variant="outline"
+          >
+            미리보기
+          </Button>
+          <Button
+            className="h-11 flex-1 rounded-seller-md text-[15px] font-semibold"
+            disabled={updateNoticesMutation.isPending}
+            onClick={() =>
+              updateNoticesMutation.mutate(toUpdateNoticesInput(itemsByType), {
+                onSuccess: () => router.push("/seller/order-form"),
+              })
+            }
+            size="md"
+          >
+            {updateNoticesMutation.isPending ? "저장 중..." : "저장"}
+          </Button>
+        </div>
       </div>
     </main>
   );

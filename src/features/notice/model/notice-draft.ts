@@ -2,9 +2,13 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import type { NoticeType } from "@/features/notice/model/notice-categories";
 
-type NoticeDraftState = {
+export type NoticeDraftState = {
   addItem: (type: NoticeType, content: string) => void;
+  ensureInitialItem: (type: NoticeType) => void;
+  isInitialized: boolean;
   itemsByType: Partial<Record<NoticeType, string[]>>;
+  replaceDraft: (itemsByType: NoticeDraftState["itemsByType"]) => void;
+  setInitialized: () => void;
   updateItem: (type: NoticeType, index: number, content: string) => void;
 };
 
@@ -18,7 +22,23 @@ export const useNoticeDraftStore = create<NoticeDraftState>()(
             [type]: [...(state.itemsByType[type] ?? []), content],
           },
         })),
+      ensureInitialItem: (type) =>
+        set((state) => {
+          if ((state.itemsByType[type] ?? []).length > 0) {
+            return state;
+          }
+
+          return {
+            itemsByType: {
+              ...state.itemsByType,
+              [type]: [""],
+            },
+          };
+        }),
+      isInitialized: false,
       itemsByType: {},
+      replaceDraft: (itemsByType) => set({ itemsByType }),
+      setInitialized: () => set({ isInitialized: true }),
       updateItem: (type, index, content) =>
         set((state) => ({
           itemsByType: {
@@ -31,6 +51,7 @@ export const useNoticeDraftStore = create<NoticeDraftState>()(
     }),
     {
       name: "seller-notice-draft",
+      partialize: (state) => ({ itemsByType: state.itemsByType }),
       storage: createJSONStorage(() => sessionStorage),
     },
   ),
