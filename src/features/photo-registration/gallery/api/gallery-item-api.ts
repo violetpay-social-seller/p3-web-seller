@@ -9,3 +9,6 @@ export const getGalleryItems = () =>
 
 export const createGalleryItem = (input: CreateGalleryItemInput) =>
   sendJson<GalleryItem>("/seller/gallery-items", "POST", input);
+
+export const deleteGalleryItem = (galleryItemId: string) =>
+  sendJson<void>(`/seller/gallery-items/${galleryItemId}`, "DELETE");
