@@ -1,10 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  createRepresentativeImage,
   createStore,
-  deleteRepresentativeImage,
   deleteStore,
-  updateRepresentativeImage,
   updateStore,
   updateStoreSettings,
   updateStoreStatus,
@@ -49,38 +46,5 @@ export function useUpdateStoreSettingsMutation() {
     mutationFn: updateStoreSettings,
     onSuccess: () =>
       queryClient.invalidateQueries({ queryKey: storeKeys.settings() }),
-  });
-}
-
-export function useCreateRepresentativeImageMutation() {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: createRepresentativeImage,
-    onSuccess: () =>
-      queryClient.invalidateQueries({
-        queryKey: storeKeys.representativeImages(),
-      }),
-  });
-}
-
-export function useUpdateRepresentativeImageMutation() {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: updateRepresentativeImage,
-    onSuccess: () =>
-      queryClient.invalidateQueries({
-        queryKey: storeKeys.representativeImages(),
-      }),
-  });
-}
-
-export function useDeleteRepresentativeImageMutation() {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: deleteRepresentativeImage,
-    onSuccess: () =>
-      queryClient.invalidateQueries({
-        queryKey: storeKeys.representativeImages(),
-      }),
   });
 }

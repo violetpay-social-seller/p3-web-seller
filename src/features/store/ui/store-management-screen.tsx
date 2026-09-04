@@ -21,7 +21,11 @@ export function StoreManagementScreen() {
       href: "/seller/notice",
       label: "공지사항",
     },
-    { completed: items?.photoRegistration ?? false, label: "사진등록" },
+    {
+      completed: items?.photoRegistration ?? false,
+      href: "/seller/photo-registration/representative",
+      label: "사진등록",
+    },
     {
       completed: items?.settlementAccount ?? false,
       label: "정산계좌",

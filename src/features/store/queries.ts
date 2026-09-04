@@ -1,7 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import {
-  getRepresentativeImage,
-  getRepresentativeImages,
   getStore,
   getStoreManagementStatus,
   getStoreSettings,
@@ -34,21 +32,5 @@ export function useStoreShareLinkQuery(enabled = true) {
     queryKey: storeKeys.shareLink(),
     queryFn: getStoreShareLink,
     enabled,
-  });
-}
-
-export function useRepresentativeImagesQuery(enabled = true) {
-  return useQuery({
-    queryKey: storeKeys.representativeImages(),
-    queryFn: getRepresentativeImages,
-    enabled,
-  });
-}
-
-export function useRepresentativeImageQuery(imageId: string, enabled = true) {
-  return useQuery({
-    queryKey: storeKeys.representativeImage(imageId),
-    queryFn: () => getRepresentativeImage(imageId),
-    enabled: enabled && Boolean(imageId),
   });
 }
