@@ -1,15 +1,15 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useUploadAssetMutation } from "@/features/assets/mutations";
-import { useAssetsQuery } from "@/features/assets/queries";
-import type { UploadedAsset } from "@/features/assets/types";
+import { useUploadAssetMutation } from "@/features/assets/model/asset-mutations";
+import { useAssetsQuery } from "@/features/assets/model/asset-queries";
+import type { UploadedAsset } from "@/features/assets/model/asset-types";
 import { OrderFormHeader } from "@/features/order-form/ui/order-form-header";
-import { useCreateRepresentativeImageMutation } from "@/features/photo-registration/representative/mutations";
-import { useRepresentativeImagesQuery } from "@/features/photo-registration/representative/queries";
+import { useCreateRepresentativeImageMutation } from "@/features/photo-registration/representative/model/representative-image-mutations";
+import { useRepresentativeImagesQuery } from "@/features/photo-registration/representative/model/representative-image-queries";
 import { RepresentativePhotoPreview } from "@/features/photo-registration/representative/ui/representative-photo-preview";
 import { RepresentativePhotoUploadField } from "@/features/photo-registration/representative/ui/representative-photo-upload-field";
-import { useStoreManagementStatusQuery } from "@/features/store/queries";
+import { useStoreManagementStatusQuery } from "@/features/store/model/store-queries";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 

@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createRepresentativeImage } from "@/features/photo-registration/representative/api";
-import { representativeImageKeys } from "@/features/photo-registration/representative/keys";
-import { storeKeys } from "@/features/store/keys";
+import { createRepresentativeImage } from "@/features/photo-registration/representative/api/representative-image-api";
+import { representativeImageKeys } from "@/features/photo-registration/representative/model/representative-image-keys";
+import { storeKeys } from "@/features/store/model/store-keys";
 
 export function useCreateRepresentativeImageMutation() {
   const queryClient = useQueryClient();

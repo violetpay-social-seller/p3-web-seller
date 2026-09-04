@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteAsset, uploadAsset } from "@/features/assets/api";
-import { assetKeys } from "@/features/assets/keys";
+import { deleteAsset, uploadAsset } from "@/features/assets/api/assets-api";
+import { assetKeys } from "@/features/assets/api/asset-keys";
 
 export function useUploadAssetMutation() {
   const queryClient = useQueryClient();

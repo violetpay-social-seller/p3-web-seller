@@ -2,7 +2,7 @@ import { getJson, sendJson } from "@/lib/api/client";
 import type {
   CreateRepresentativeImageInput,
   RepresentativeImage,
-} from "@/features/photo-registration/representative/types";
+} from "@/features/photo-registration/representative/model/representative-image-types";
 
 export const getRepresentativeImages = () =>
   getJson<RepresentativeImage[]>("/seller/representative-images");

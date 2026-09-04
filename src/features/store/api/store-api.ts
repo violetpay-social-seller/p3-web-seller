@@ -7,7 +7,7 @@ import type {
   StoreSettingsInput,
   StoreShareLink,
   StoreStatus,
-} from "@/features/store/types";
+} from "@/features/store/model/store-types";
 
 export const getStore = () => getJson<Store>("/seller/store");
 export const getStoreManagementStatus = () =>

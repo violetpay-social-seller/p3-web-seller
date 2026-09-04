@@ -4,8 +4,8 @@ import {
   getStoreManagementStatus,
   getStoreSettings,
   getStoreShareLink,
-} from "@/features/store/api";
-import { storeKeys } from "@/features/store/keys";
+} from "@/features/store/api/store-api";
+import { storeKeys } from "@/features/store/model/store-keys";
 
 export function useStoreQuery(enabled = true) {
   return useQuery({ queryKey: storeKeys.detail(), queryFn: getStore, enabled });

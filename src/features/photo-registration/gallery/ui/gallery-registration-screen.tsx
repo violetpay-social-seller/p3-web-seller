@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { OrderFormHeader } from "@/features/order-form/ui/order-form-header";
 import { RepresentativePhotoUploadField } from "@/features/photo-registration/representative/ui/representative-photo-upload-field";
-import { useStoreManagementStatusQuery } from "@/features/store/queries";
+import { useStoreManagementStatusQuery } from "@/features/store/model/store-queries";
 
 export function GalleryRegistrationScreen() {
   const statusQuery = useStoreManagementStatusQuery();
