@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 const variantClassNames = {
   primary: "bg-seller-primary text-text-inverse hover:bg-seller-primary/90",
   secondary: "bg-seller-secondary text-seller-primary hover:bg-seller-border",
+  destructive:
+    "bg-brand-destructive text-text-inverse hover:bg-brand-destructive/90",
   outline:
     "border border-seller-border bg-surface-default text-seller-primary hover:bg-seller-surface",
   ghost: "text-seller-primary hover:bg-seller-secondary",
