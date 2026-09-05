@@ -5,7 +5,7 @@ import {
 } from "@/features/order-form/api/order-form-api";
 import type { CreateOrderFormInput } from "@/features/order-form/model/order-form-api-types";
 import { orderFormKeys } from "@/features/order-form/model/order-form-keys";
-import { storeKeys } from "@/features/store/keys";
+import { storeKeys } from "@/features/store/model/store-keys";
 
 type SaveOrderFormVariables = {
   input: CreateOrderFormInput;

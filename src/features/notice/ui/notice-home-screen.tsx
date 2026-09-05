@@ -7,7 +7,7 @@ import { noticeCategories } from "@/features/notice/model/notice-categories";
 import { useNoticeDraftStore } from "@/features/notice/model/notice-draft";
 import { useUpdateNoticesMutation } from "@/features/notice/model/notice-mutations";
 import { toUpdateNoticesInput } from "@/features/notice/model/notice-response";
-import { useStoreManagementStatusQuery } from "@/features/store/queries";
+import { useStoreManagementStatusQuery } from "@/features/store/model/store-queries";
 import { OrderFormHeader } from "@/features/order-form/ui/order-form-header";
 
 export function NoticeHomeScreen() {

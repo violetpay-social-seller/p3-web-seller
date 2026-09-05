@@ -11,7 +11,7 @@ import {
   hasEveryOrderFormCategory,
 } from "@/features/order-form/model/order-form-request";
 import { OrderFormHeader } from "@/features/order-form/ui/order-form-header";
-import { useStoreManagementStatusQuery } from "@/features/store/queries";
+import { useStoreManagementStatusQuery } from "@/features/store/model/store-queries";
 
 export function OrderFormScreen() {
   const router = useRouter();

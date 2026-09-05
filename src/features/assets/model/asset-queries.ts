@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { getAsset, getAssets } from "@/features/assets/api";
-import { assetKeys } from "@/features/assets/keys";
+import { getAsset, getAssets } from "@/features/assets/api/assets-api";
+import { assetKeys } from "@/features/assets/api/asset-keys";
 
 export function useAssetsQuery(enabled = true) {
   return useQuery({ queryKey: assetKeys.list(), queryFn: getAssets, enabled });

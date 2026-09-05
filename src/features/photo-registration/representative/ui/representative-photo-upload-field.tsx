@@ -1,0 +1,41 @@
+import Image from "next/image";
+
+type RepresentativePhotoUploadFieldProps = {
+  disabled?: boolean;
+  onFileSelect: (file: File) => void;
+};
+
+export function RepresentativePhotoUploadField({
+  disabled = false,
+  onFileSelect,
+}: RepresentativePhotoUploadFieldProps) {
+  return (
+    <label
+      aria-label="대표사진 업로드 영역"
+      className="flex size-[177px] cursor-pointer items-center justify-center overflow-hidden rounded-seller-sm bg-surface-subtle has-disabled:cursor-not-allowed has-disabled:opacity-40"
+    >
+      <input
+        accept="image/jpeg,image/png,image/webp"
+        className="sr-only"
+        disabled={disabled}
+        onChange={(event) => {
+          const file = event.target.files?.[0];
+          event.target.value = "";
+
+          if (file) {
+            onFileSelect(file);
+          }
+        }}
+        type="file"
+      />
+      <Image
+        aria-hidden="true"
+        alt=""
+        className="size-5"
+        height={16}
+        src="/photo-registration/upload.svg"
+        width={16}
+      />
+    </label>
+  );
+}
