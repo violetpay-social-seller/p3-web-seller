@@ -1,7 +1,5 @@
 import { getJson, sendJson } from "@/lib/api/client";
 import type {
-  CreateRepresentativeImageInput,
-  RepresentativeImage,
   Store,
   StoreInput,
   StoreManagementStatus,
@@ -9,8 +7,7 @@ import type {
   StoreSettingsInput,
   StoreShareLink,
   StoreStatus,
-  UpdateRepresentativeImageInput,
-} from "@/features/store/types";
+} from "@/features/store/model/store-types";
 
 export const getStore = () => getJson<Store>("/seller/store");
 export const getStoreManagementStatus = () =>
@@ -29,23 +26,3 @@ export const updateStoreSettings = (input: StoreSettingsInput) =>
   sendJson<StoreSettings>("/seller/store/settings", "PUT", input);
 export const getStoreShareLink = () =>
   getJson<StoreShareLink>("/seller/store/share-link");
-
-export const getRepresentativeImages = () =>
-  getJson<RepresentativeImage[]>("/seller/representative-images");
-export const getRepresentativeImage = (imageId: string) =>
-  getJson<RepresentativeImage>(`/seller/representative-images/${imageId}`);
-export const createRepresentativeImage = (
-  input: CreateRepresentativeImageInput,
-) =>
-  sendJson<RepresentativeImage>("/seller/representative-images", "POST", input);
-export const updateRepresentativeImage = ({
-  imageId,
-  ...input
-}: UpdateRepresentativeImageInput & { imageId: string }) =>
-  sendJson<RepresentativeImage>(
-    `/seller/representative-images/${imageId}`,
-    "PATCH",
-    input,
-  );
-export const deleteRepresentativeImage = (imageId: string) =>
-  sendJson<void>(`/seller/representative-images/${imageId}`, "DELETE");

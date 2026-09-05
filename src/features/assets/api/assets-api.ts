@@ -1,5 +1,5 @@
 import { apiRequest, getJson, sendJson } from "@/lib/api/client";
-import type { Asset, UploadedAsset } from "@/features/assets/types";
+import type { Asset, UploadedAsset } from "@/features/assets/model/asset-types";
 
 export const uploadAsset = (file: File) => {
   const formData = new FormData();

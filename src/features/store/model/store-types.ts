@@ -1,5 +1,4 @@
 export type StoreStatus = "INACTIVE" | "ACTIVE" | "SUSPENDED" | "DELETED";
-export type RepresentativeImageStatus = "ACTIVE" | "HIDDEN";
 
 export type StoreInput = {
   name: string;
@@ -65,22 +64,3 @@ export type StoreManagementStatus = {
   canActivate: boolean;
   activationBlockedReasons: string[];
 };
-
-export type RepresentativeImage = {
-  id: string;
-  storeId: string;
-  assetId: string;
-  sortOrder: number;
-  status: RepresentativeImageStatus;
-  createdAt: string;
-  updatedAt: string;
-};
-
-export type CreateRepresentativeImageInput = Pick<
-  RepresentativeImage,
-  "assetId" | "sortOrder"
->;
-export type UpdateRepresentativeImageInput = Pick<
-  RepresentativeImage,
-  "sortOrder" | "status"
->;
