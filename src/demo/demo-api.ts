@@ -37,8 +37,26 @@ export async function demoApiRequest<T>(
 
   if (path === "/auth/me")
     return ok(toSellerProfile(database)) as DemoApiResponse<T>;
+  if (path === "/seller/store/management-status" && method === "GET")
+    return ok(toStoreManagementStatus(database)) as DemoApiResponse<T>;
+  if (path === "/seller/store/share-link" && method === "GET")
+    return ok(toStoreShareLink(database)) as DemoApiResponse<T>;
+  if (path === "/seller/store/settings" && method === "GET")
+    return ok(toStoreSettings(database)) as DemoApiResponse<T>;
+  if (path === "/seller/store/business-hours" && method === "GET")
+    return ok(toStoreBusinessHours()) as DemoApiResponse<T>;
+  if (path === "/seller/store/refund-policy" && method === "GET")
+    return ok(toStoreRefundPolicy()) as DemoApiResponse<T>;
+  if (path === "/seller/store" && method === "GET")
+    return ok(toSellerStore(database)) as DemoApiResponse<T>;
+  if (path === "/seller/store/status" && method === "PATCH")
+    return ok(toSellerStore(database)) as DemoApiResponse<T>;
   if (path === "/seller/dashboard")
     return ok(toSellerDashboard(database)) as DemoApiResponse<T>;
+  if (path === "/seller/dashboard/revenue" && method === "GET")
+    return ok(
+      toSellerRevenue(database, url.searchParams),
+    ) as DemoApiResponse<T>;
   if (path === "/seller/inquiries" && method === "GET")
     return ok(
       toSellerInquiryList(database, url.searchParams),
@@ -225,6 +243,11 @@ export async function demoApiRequest<T>(
     ) as DemoApiResponse<T>;
   }
 
+  if (path === "/seller/orders/calendar/month" && method === "GET")
+    return ok(
+      toSellerOrderCalendar(database, url.searchParams),
+    ) as DemoApiResponse<T>;
+
   const orderMatch = path.match(/^\/seller\/orders\/([^/]+)$/);
   if (orderMatch && method === "GET")
     return ok(
@@ -298,6 +321,111 @@ function toSellerProfile(database: DemoDatabase) {
     status: "ACTIVE",
     createdAt: database.inquiries["inquiry-001"].createdAt,
     nextRoute: "/seller/home",
+  };
+}
+
+function toSellerStore(database: DemoDatabase) {
+  const store = database.stores["store-001"];
+  const createdAt = database.inquiries["inquiry-001"].createdAt;
+
+  return {
+    id: store.id,
+    ownerUserId: store.sellerUserId,
+    name: store.name,
+    slug: store.slug,
+    profileAssetId: store.profileAssetId,
+    description: store.description,
+    contact: "02-1234-5678",
+    contactVisible: true,
+    snsLinks: "https://www.instagram.com/wihada.demo",
+    businessHours: "화–일 10:00–19:00",
+    pickupSettings: "예약 시간에 매장 픽업",
+    address: "서울특별시 성동구 성수이로 00",
+    cancellationRefundPolicy: "픽업 2일 전까지 전액 환불",
+    settlementAccountStatus: "REGISTERED",
+    settlementAccountRegisteredAt: createdAt,
+    status: "ACTIVE",
+    createdAt,
+    updatedAt: new Date().toISOString(),
+  };
+}
+
+function toStoreManagementStatus(database: DemoDatabase) {
+  const store = database.stores["store-001"];
+
+  return {
+    storeName: store.name,
+    completedCount: 5,
+    totalCount: 5,
+    items: {
+      storeInfo: true,
+      orderForm: true,
+      notice: true,
+      photoRegistration: true,
+      settlementAccount: true,
+    },
+    canActivate: true,
+    activationBlockedReasons: [],
+  };
+}
+
+function toStoreShareLink(database: DemoDatabase) {
+  const store = database.stores["store-001"];
+
+  return {
+    slug: store.slug,
+    url: `https://wihada.com/stores/${store.slug}`,
+  };
+}
+
+function toStoreSettings(database: DemoDatabase) {
+  return {
+    storeId: database.stores["store-001"].id,
+    leadTimeMinutes: 2880,
+    preOrderNotice: "픽업 이틀 전까지 주문해 주세요.",
+    cancellationCutoffDays: 2,
+    weeklyPickupSettings: [
+      "TUESDAY",
+      "WEDNESDAY",
+      "THURSDAY",
+      "FRIDAY",
+      "SATURDAY",
+      "SUNDAY",
+    ].map((dayOfWeek) => ({
+      dayOfWeek,
+      startTime: "10:00",
+      endTime: "19:00",
+      dailyOrderCapacity: 8,
+      enabled: true,
+    })),
+    holidays: [],
+  };
+}
+
+function toStoreBusinessHours() {
+  return {
+    openDays: [
+      "TUESDAY",
+      "WEDNESDAY",
+      "THURSDAY",
+      "FRIDAY",
+      "SATURDAY",
+      "SUNDAY",
+    ],
+    startTime: "10:00",
+    endTime: "19:00",
+    breakStartTime: "13:00",
+    breakEndTime: "14:00",
+  };
+}
+
+function toStoreRefundPolicy() {
+  return {
+    rules: [
+      { daysBeforePickup: 7, refundRate: 100 },
+      { daysBeforePickup: 3, refundRate: 50 },
+      { daysBeforePickup: 1, refundRate: 0 },
+    ],
   };
 }
 
@@ -657,6 +785,55 @@ function toSellerOrders(database: DemoDatabase, params: URLSearchParams) {
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 }
 
+function toSellerOrderCalendar(
+  database: DemoDatabase,
+  params: URLSearchParams,
+) {
+  const now = new Date();
+  const year = Number(params.get("year") ?? now.getFullYear());
+  const month = Number(params.get("month") ?? now.getMonth() + 1);
+  const status = params.get("status");
+  const lastDay = new Date(year, month, 0).getDate();
+  const monthPrefix = `${year}-${String(month).padStart(2, "0")}`;
+  const orders = Object.values(database.orders).filter(
+    (order) => !status || order.status === status,
+  );
+  const days = Array.from({ length: lastDay }, (_, index) => {
+    const date = `${monthPrefix}-${String(index + 1).padStart(2, "0")}`;
+    const dateOrders = orders
+      .filter((order) => getDemoDateParts(order.pickupAt).pickupDate === date)
+      .map((order) => {
+        const { pickupDate, pickupTime } = getDemoDateParts(order.pickupAt);
+        return {
+          orderId: order.id,
+          inquiryId: order.inquiryId,
+          buyerUserId: order.buyerUserId,
+          orderNumber: order.orderNumber,
+          menuName: order.menuName,
+          startReferenceAssets: order.assetIds.map(
+            (assetId) => database.assets[assetId].url,
+          ),
+          referenceAssets: toSellerOrder(database, order).referenceAssets,
+          paidAmount: order.paidAmount,
+          pickupAt: order.pickupAt,
+          pickupDate,
+          pickupTime,
+          status: order.status,
+        };
+      });
+
+    return { date, orderCount: dateOrders.length, orders: dateOrders };
+  });
+
+  return {
+    startDate: `${monthPrefix}-01`,
+    endDate: `${monthPrefix}-${String(lastDay).padStart(2, "0")}`,
+    status: status || null,
+    totalOrderCount: days.reduce((sum, day) => sum + day.orderCount, 0),
+    days,
+  };
+}
+
 function toSellerOrderDetail(database: DemoDatabase, orderId: string) {
   const order = requireDemo(database.orders, orderId, "주문");
   const attempt = requireDemo(
@@ -813,6 +990,31 @@ function toSellerDashboard(database: DemoDatabase) {
       pickupTime: order.pickupAt.slice(11, 16),
       status: order.status,
     })),
+  };
+}
+
+function toSellerRevenue(database: DemoDatabase, params: URLSearchParams) {
+  const orders = Object.values(database.orders);
+  const paymentRevenueAmount = orders.reduce(
+    (sum, order) => sum + order.paidAmount,
+    0,
+  );
+  const completedRefundAmount = Object.values(database.refunds)
+    .filter((refund) => refund.outcome === "COMPLETED")
+    .reduce((sum, refund) => sum + refund.amount, 0);
+  const netSalesAmount = paymentRevenueAmount - completedRefundAmount;
+  const settlementFeeRateBasisPoints = 300;
+  const settlementFeeAmount = Math.round(netSalesAmount * 0.03);
+
+  return {
+    startDate: params.get("startDate") ?? new Date().toISOString().slice(0, 10),
+    endDate: params.get("endDate") ?? new Date().toISOString().slice(0, 10),
+    paymentRevenueAmount,
+    completedRefundAmount,
+    netSalesAmount,
+    settlementFeeRateBasisPoints,
+    settlementFeeAmount,
+    settlementEstimateAmount: netSalesAmount - settlementFeeAmount,
   };
 }
 

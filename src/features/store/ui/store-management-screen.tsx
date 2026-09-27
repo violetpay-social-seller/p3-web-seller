@@ -67,12 +67,16 @@ export function StoreManagementScreen() {
       <section className="flex flex-1 flex-col gap-8 overflow-y-auto px-4 pt-6 pb-4">
         <div className="space-y-2">
           <h2 className="text-seller-display-lg font-bold tracking-[-0.84px] whitespace-pre-line">
-            {`‘${storeName}’스토어\n정보를 채워주세요`}
+            {canEnterSellerHome
+              ? `‘${storeName}’스토어\n준비가 완료되었어요`
+              : `‘${storeName}’스토어\n정보를 채워주세요`}
           </h2>
           <p className="text-seller-body-md tracking-[-0.32px] text-text-secondary">
             {statusQuery.isLoading
               ? "스토어 정보를 불러오고 있어요."
-              : `${totalCount}개 중 ${completedCount}개를 채웠어요. 모두 채우면 스토어를 열 수 있어요.`}
+              : canEnterSellerHome
+                ? `${totalCount}개 설정이 모두 완료되어 모든 판매자 메뉴를 이용할 수 있어요.`
+                : `${totalCount}개 중 ${completedCount}개를 채웠어요. 모두 채우면 스토어를 열 수 있어요.`}
           </p>
         </div>
         <div className="space-y-2">
